@@ -51,6 +51,7 @@ class MediaPlayerPopupCard extends LitElement {
         }
     }
 
+    var maxVolume = "maxVolume" in this.config ? this.config.maxVolume : 100;
     var fullscreen = "fullscreen" in this.config ? this.config.fullscreen : true;
     var sliderWidth = this.config.sliderWidth ? this.config.sliderWidth : "150px";
     var sliderHeight = this.config.sliderHeight ? this.config.sliderHeight : "400px";
@@ -83,7 +84,7 @@ class MediaPlayerPopupCard extends LitElement {
           </div>
           <h4 id="volumeValue" class="${stateObj.state === "off" ? '' : 'brightness'}" data-value="${this.currentVolume}%">${stateObj.state === "off" ? computeStateDisplay(this.hass.localize, stateObj, this.hass.language) : ''}</h4>
           <div class="range-holder" style="--slider-height: ${sliderHeight};--slider-width: ${sliderWidth};">
-              <input type="range" style="--slider-width: ${sliderWidth};--slider-height: ${sliderHeight}; --slider-border-radius: ${borderRadius};--slider-color:${sliderColor};--slider-thumb-color:${sliderThumbColor};--slider-track-color:${sliderTrackColor};" .value="${stateObj.state === "off" ? 0 : Math.round(stateObj.attributes.volume_level * 100)}" @input=${e => this._previewVolume(e.target.value)} @change=${e => this._setVolume(stateObj, e.target.value)}>
+              <input type="range" max="${ maxVolume }" style="--slider-width: ${sliderWidth};--slider-height: ${sliderHeight}; --slider-border-radius: ${borderRadius};--slider-color:${sliderColor};--slider-thumb-color:${sliderThumbColor};--slider-track-color:${sliderTrackColor};" .value="${stateObj.state === "off" ? 0 : Math.round(stateObj.attributes.volume_level * 100)}" @input=${e => this._previewVolume(e.target.value)} @change=${e => this._setVolume(stateObj, e.target.value)}>
           </div>
 
           ${actions && actions.length > 0 ? html`
